@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Documents Dashboard</title>
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <style>
+        /* Softened Light Mode background to reduce stark white eye-strain */
+        [data-bs-theme="light"] {
+            --bs-body-bg: #f4f6f8;
+            --bs-body-color: #2b3035;
+        }
+        [data-bs-theme="light"] .card:not(.card-dashed) {
+            background-color: #fcfdfe;
+        }
+        [data-bs-theme="light"] header,
+        [data-bs-theme="light"] footer,
+        [data-bs-theme="light"] .controls-card {
+            background-color: #ffffff;
+        }
+
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+        }
+        /* Style for Coming Soon cards */
+        .card-dashed {
+            border: 2px dashed var(--bs-border-color) !important;
+            background-color: var(--bs-tertiary-bg);
+        }
+        .extra-small {
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-body min-vh-100 d-flex flex-column">
+
+    <!-- Header Section -->
+    <header class="border-bottom py-4 shadow-sm">
+        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <!-- Header Document/Note Icon -->
+                <div class="p-2 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.5 1.5v2.121a.5.5 0 0 0 .5.5h2.121zM4.5 6.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="h3 mb-0 fw-bold text-body" data-i18n="portal_title">Document Portal</h1>
+                    <p class="text-secondary small mb-0" data-i18n="portal_subtitle">Official forms tracker & generator</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <!-- Language Toggle Button -->
+                <button type="button" id="lang-toggle" class="btn btn-outline-primary btn-sm rounded-pill d-flex align-items-center gap-1" aria-label="Toggle language">
+                    🌐 <span id="lang-label" class="fw-semibold">FR</span>
+                </button>
+
+                <!-- GitHub Profile Button -->
+                <a href="https://github.com/shoc71" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="btn btn-outline-secondary btn-sm rounded-pill d-flex align-items-center gap-2" 
+                   aria-label="GitHub Repository">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                    </svg>
+                    <span class="d-none d-sm-inline">GitHub</span>
+                </a>
+
+                <!-- Theme Toggle Button -->
+                <button type="button" id="theme-toggle" class="btn btn-outline-secondary btn-sm rounded-pill d-flex align-items-center gap-2" aria-label="Toggle theme">
+                    <span id="theme-icon">🌙</span>
+                    <span id="theme-label" class="d-none d-sm-inline">Dark Mode</span>
+                </button>
+
+                <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2 ms-1" id="doc-count">Showing documents</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="py-4 flex-grow-1">
+        <div class="container">
+            
+            <!-- Controls Bar: Search Input + Category Select -->
+            <div class="card controls-card border-0 shadow-sm mb-4">
+                <div class="card-body p-3">
+                    <div class="row g-3 align-items-center">
+                        
+                        <!-- Search Box -->
+                        <div class="col-12 col-md-7">
+                            <div class="input-group">
+                                <span class="input-group-text bg-body border-end-0 text-muted">🔍</span>
+                                <input type="text" id="search-input" class="form-control border-start-0 ps-0" placeholder="Search title or keyword..." data-i18n-ph="search_placeholder">
+                            </div>
+                        </div>
+
+                        <!-- Dropdown -->
+                        <div class="col-12 col-md-5">
+                            <div class="input-group">
+                                <label class="input-group-text bg-body text-secondary" for="category-select" data-i18n="category_label">Category</label>
+                                <select class="form-select" id="category-select">
+                                    <option value="all" selected>All Categories (0)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Grid -->
+            <div class="row g-4" id="document-grid">
+                
+                <!-- N1 Document Card -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Official Legal" data-keywords="n1 rent increase notice landlord tribunal ltb avis augmentation loyer">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-primary">📄</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0"
+                                        data-title-en="N1 Document"
+                                        data-title-fr="Document N1">N1 Document</h5>
+                                </div>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">PDF</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Landlord Forms">Landlord Forms</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Official Legal">Official Legal</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4"
+                               data-desc-en="Notice of Rent Increase. Official Form N1 under the Ontario Residential Tenancies Act."
+                               data-desc-fr="Avis d'augmentation de loyer. Formulaire officiel N1 en vertu de la Loi sur le logement locatif de l'Ontario.">
+                                Notice of Rent Increase. Official Form N1 under the Ontario Residential Tenancies Act.
+                            </p>
+                            <div class="mt-auto d-flex flex-column gap-1">
+                                <a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1.pdf" 
+                                   data-url-en="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1.pdf"
+                                   data-url-fr="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1_fr.pdf"
+                                   target="_blank" 
+                                   rel="noopener"
+                                   class="btn btn-outline-primary w-100 ref-link"
+                                   data-i18n="viewRef">
+                                    View Reference
+                                </a>
+                                <span class="text-muted extra-small d-none fr-unavailable mt-1">Aucune version française officielle (pour le moment).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notice of Entry Card -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Templates" data-keywords="notice of entry intent access tenant unit ontario avis d'entree logement">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-success">📝</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0"
+                                        data-title-en="Notice of Entry"
+                                        data-title-fr="Avis d'entrée">Notice of Entry</h5>
+                                </div>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" data-i18n="badge_html">HTML Form</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Landlord Forms">Landlord Forms</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Templates">Templates</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4"
+                               data-desc-en="Notice of intent to enter served by landlords to gain access to units under Section 27(1) of the RTA."
+                               data-desc-fr="Avis d'intention d'entrer remis par les locateurs pour accéder aux logements en vertu de l'article 27(1).">
+                                Notice of intent to enter served by landlords to gain access to units under Section 27(1) of the RTA.
+                            </p>
+                            <div class="mt-auto d-flex gap-2">
+                                <a href="./pages/notice-of-entry.html" 
+                                   target="_blank" 
+                                   class="btn btn-success flex-fill" data-i18n="btn_open_form">
+                                    Open Form
+                                </a>
+                                <a href="https://ontariolandlords.org/entrytemplate.pdf" 
+                                   target="_blank" 
+                                   rel="noopener"
+                                   class="btn btn-outline-primary flex-fill ref-link"
+                                   data-i18n="btn_reference">
+                                    Reference
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed N4 Document Card -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Eviction Notices, Official Legal" data-keywords="n4 termination non-payment rent notice landlord tribunal ltb avis resiliation non-paiement">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-primary">📄</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0"
+                                        data-title-en="N4 Notice Form"
+                                        data-title-fr="Formulaire d'avis N4">N4 Notice Form</h5>
+                                </div>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">PDF</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Landlord Forms">Landlord Forms</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Eviction Notices">Eviction Notices</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Official Legal">Official Legal</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4"
+                               data-desc-en="Notice to End a Tenancy Early for Non-payment of Rent under the Ontario RTA."
+                               data-desc-fr="Avis de résiliation de bail pour non-paiement du loyer en vertu de la loi de l'Ontario.">
+                                Notice to End a Tenancy Early for Non-payment of Rent under the Ontario RTA.
+                            </p>
+                            <div class="mt-auto d-flex flex-column gap-1">
+                                <a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4.pdf"
+                                   data-url-en="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4.pdf"
+                                   data-url-fr="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4_fr.pdf"
+                                   target="_blank" 
+                                   rel="noopener"
+                                   class="btn btn-outline-primary w-100 ref-link"
+                                   data-i18n="viewRef">
+                                    View Reference
+                                </a>
+                                <span class="text-muted extra-small d-none fr-unavailable mt-1">Aucune version française officielle (pour le moment).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon 1: PDD Form -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Inspection Reports, Templates, Upcoming" data-keywords="pdd property damage report condition move in inspection tenant landlord upcoming inspection etat des lieux">
+                    <div class="card h-100 card-dashed shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-warning-emphasis">🔍</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0" 
+                                        data-title-en="PDD Inspection Form"
+                                        data-title-fr="Formulaire d'inspection PDD">PDD Inspection Form</h5>
+                                </div>
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill" data-i18n="badge_coming_soon">Coming Soon</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Inspection Reports">Inspection Reports</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Templates">Templates</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Upcoming">Upcoming</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4" 
+                               data-desc-en="Property Damage Disclosure & Move-in/Move-out Unit Condition Checklist."
+                               data-desc-fr="Divulgation des dommages immobiliers et liste de contrôle de l'état du logement à l'entrée/sortie.">
+                                Property Damage Disclosure & Move-in/Move-out Unit Condition Checklist.
+                            </p>
+                            <div class="mt-auto">
+                                <button type="button" 
+                                        class="btn btn-outline-warning text-warning-emphasis w-100 preview-btn"
+                                        data-i18n="btn_preview"
+                                        data-features-en="Itemized room checklist, photo attachment capability, pre-existing defect documentation, dual signatures."
+                                        data-features-fr="Liste de contrôle par pièce, possibilité de joindre des photos, documentation des défauts préexistants, signatures."
+                                        data-status-en="Planned for Q3 2026"
+                                        data-status-fr="Prévu pour le T3 2026">
+                                    Preview Features
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon 2: N12 Form -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Eviction Notices, Upcoming" data-keywords="n12 personal use purchaser eviction notice upcoming usage personnel acheteur">
+                    <div class="card h-100 card-dashed shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-warning-emphasis">🏠</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0" 
+                                        data-title-en="N12 Notice Form"
+                                        data-title-fr="Formulaire d'avis N12">N12 Notice Form</h5>
+                                </div>
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill" data-i18n="badge_coming_soon">Coming Soon</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Landlord Forms">Landlord Forms</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Eviction Notices">Eviction Notices</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Upcoming">Upcoming</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4" 
+                               data-desc-en="Notice to End Tenancy for Landlord's Own Use or Purchaser's Occupancy."
+                               data-desc-fr="Avis de fin de location pour occupation par le locateur ou l'acheteur.">
+                                Notice to End Tenancy for Landlord's Own Use or Purchaser's Occupancy.
+                            </p>
+                            <div class="mt-auto">
+                                <button type="button" 
+                                        class="btn btn-outline-warning text-warning-emphasis w-100 preview-btn"
+                                        data-i18n="btn_preview"
+                                        data-features-en="60-day notice date calculator, compensation tracker (1 month rent rule), compliance checklist."
+                                        data-features-fr="Calculateur de préavis de 60 jours, suivi de l'indemnisation (règle de 1 mois de loyer), liste de contrôle."
+                                        data-status-en="Planned Concept"
+                                        data-status-fr="Concept planifié">
+                                    Preview Features
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon 3: N5 Form -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Eviction Notices, Upcoming" data-keywords="n5 interference damage overcrowding notice upcoming dommages préjudice">
+                    <div class="card h-100 card-dashed shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-warning-emphasis">⚠️</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0" 
+                                        data-title-en="N5 Notice Form"
+                                        data-title-fr="Formulaire d'avis N5">N5 Notice Form</h5>
+                                </div>
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill" data-i18n="badge_coming_soon">Coming Soon</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Landlord Forms">Landlord Forms</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Eviction Notices">Eviction Notices</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Upcoming">Upcoming</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4" 
+                               data-desc-en="Notice to End Tenancy for Substantial Interference, Damage, or Overcrowding."
+                               data-desc-fr="Avis de fin de location pour préjudice important, dommages ou surpopulation.">
+                                Notice to End Tenancy for Substantial Interference, Damage, or Overcrowding.
+                            </p>
+                            <div class="mt-auto">
+                                <button type="button" 
+                                        class="btn btn-outline-warning text-warning-emphasis w-100 preview-btn"
+                                        data-i18n="btn_preview"
+                                        data-features-en="7-day correction period tracker, incident detail logger, repair cost calculator."
+                                        data-features-fr="Suivi de la période de correction de 7 jours, journal des incidents, calculateur des coûts."
+                                        data-status-en="Planned Concept"
+                                        data-status-fr="Concept planifié">
+                                    Preview Features
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon 4: Standard Lease Agreement -->
+                <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Tenant Agreements, Official Legal, Upcoming" data-keywords="ontario standard lease agreement tenancy contract template upcoming bail standard ontario">
+                    <div class="card h-100 card-dashed shadow-sm">
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-warning-emphasis">📑</span>
+                                    <h5 class="card-title fw-semibold text-body mb-0" 
+                                        data-title-en="Ontario Standard Lease"
+                                        data-title-fr="Bail standard de l'Ontario">Ontario Standard Lease</h5>
+                                </div>
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill" data-i18n="badge_coming_soon">Coming Soon</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Tenant Agreements">Tenant Agreements</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Official Legal">Official Legal</span>
+                                <span class="badge bg-body-secondary text-secondary border" data-cat="Upcoming">Upcoming</span>
+                            </div>
+                            <p class="card-text text-secondary mb-4" 
+                               data-desc-en="Mandatory Residential Tenancy Agreement (Standard Form of Lease) pre-populated generator."
+                               data-desc-fr="Générateur de convention de bail d'habitation standard pré-rempli obligatoire.">
+                                Mandatory Residential Tenancy Agreement (Standard Form of Lease) pre-populated generator.
+                            </p>
+                            <div class="mt-auto">
+                                <button type="button" 
+                                        class="btn btn-outline-warning text-warning-emphasis w-100 preview-btn"
+                                        data-i18n="btn_preview"
+                                        data-features-en="Auto-formatting for required fields, custom rule additions (pet policy, smoking rules), digital PDF sign-ready generator."
+                                        data-features-fr="Mise en forme automatique, ajout de clauses personnalisées, générateur PDF prêt pour signature numérique."
+                                        data-status-en="Planned Feature"
+                                        data-status-fr="Fonctionnalité planifiée">
+                                    Preview Features
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty Search Results State -->
+            <div id="no-results" class="text-center py-5 d-none">
+                <p class="h5 text-muted mb-2" data-i18n="no_res_title">No documents found</p>
+                <p class="text-secondary small mb-3" data-i18n="no_res_desc">Try searching for a different title or resetting the category filter.</p>
+                <button id="reset-filters" class="btn btn-sm btn-outline-primary" data-i18n="btn_reset">Reset Filters</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Coming Soon Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 fw-bold text-body" id="previewModalLabel">Document Preview</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Overview Description Section inside the Modal -->
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-body mb-1" data-i18n="modal_overview_title">Description:</h6>
+                        <p id="modal-desc" class="text-secondary small mb-0"></p>
+                    </div>
+
+                    <!-- Key Features Box -->
+                    <div class="bg-body-tertiary p-3 rounded border mb-3">
+                        <h6 class="fw-semibold text-body mb-2" data-i18n="modal_key_features">Key Planned Features:</h6>
+                        <p id="modal-features" class="small text-secondary mb-0"></p>
+                    </div>
+
+                    <!-- Development Status Section -->
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="small text-muted" data-i18n="modal_dev_status">Development Status:</span>
+                        <span id="modal-status" class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" data-i18n="modal_close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Footer -->
+    <footer class="border-top py-3 mt-auto">
+        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+            <span class="text-secondary small" data-i18n="footer_copy">
+                © Document Portal · Official forms tracker & generator
+            </span>
+            <span class="text-secondary small">
+                <span data-i18n="footer_created_by">Created by</span> <a href="https://github.com/shoc71" target="_blank" rel="noopener" class="text-decoration-none fw-semibold link-primary">shoc71</a>
+            </span>
+        </div>
+    </footer>
+
+    <!-- Client-Side Dashboard Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Language Translations Mapping
+            const translations = {
+                en: {
+                    portal_title: "Document Portal",
+                    portal_subtitle: "Official forms tracker & generator",
+                    dark_mode: "Dark Mode",
+                    light_mode: "Light Mode",
+                    showing_docs: "Showing {count} document(s)",
+                    search_placeholder: "Search title or keyword...",
+                    category_label: "Category",
+                    all_categories: "All Categories",
+                    badge_html: "HTML Form",
+                    badge_coming_soon: "Coming Soon",
+                    viewRef: "View Reference",
+                    btn_open_form: "Open Form",
+                    btn_reference: "Reference",
+                    btn_preview: "Preview Features",
+                    no_res_title: "No documents found",
+                    no_res_desc: "Try searching for a different title or resetting the category filter.",
+                    btn_reset: "Reset Filters",
+                    modal_overview_title: "Description:",
+                    modal_key_features: "Key Planned Features:",
+                    modal_dev_status: "Development Status:",
+                    modal_close: "Close",
+                    footer_copy: "© Document Portal · Official forms tracker & generator",
+                    footer_created_by: "Created by",
+                    cats: {
+                        "Landlord Forms": "Landlord Forms",
+                        "Official Legal": "Official Legal",
+                        "Templates": "Templates",
+                        "Eviction Notices": "Eviction Notices",
+                        "Inspection Reports": "Inspection Reports",
+                        "Tenant Agreements": "Tenant Agreements",
+                        "Upcoming": "Upcoming"
+                    }
+                },
+                fr: {
+                    portal_title: "Portail Documentaire",
+                    portal_subtitle: "Suivi et générateur de formulaires officiels",
+                    dark_mode: "Mode Sombre",
+                    light_mode: "Mode Clair",
+                    showing_docs: "Affichage de {count} document(s)",
+                    search_placeholder: "Rechercher par titre ou mot-clé...",
+                    category_label: "Catégorie",
+                    all_categories: "Toutes les catégories",
+                    badge_html: "Formulaire HTML",
+                    badge_coming_soon: "À venir",
+                    viewRef: "Voir Référence",
+                    btn_open_form: "Ouvrir formulaire",
+                    btn_reference: "Référence",
+                    btn_preview: "Aperçu des fonctionnalités",
+                    no_res_title: "Aucun document trouvé",
+                    no_res_desc: "Essayez de rechercher un autre titre ou de réinitialiser le filtre de catégorie.",
+                    btn_reset: "Réinitialiser filtres",
+                    modal_overview_title: "Description :",
+                    modal_key_features: "Fonctionnalités clés prévues :",
+                    modal_dev_status: "Statut de développement :",
+                    modal_close: "Fermer",
+                    footer_copy: "© Portail Documentaire · Suivi et générateur de formulaires",
+                    footer_created_by: "Créé par",
+                    cats: {
+                        "Landlord Forms": "Formulaires Locateur",
+                        "Official Legal": "Légal Officiel",
+                        "Templates": "Modèles",
+                        "Eviction Notices": "Avis d'expulsion",
+                        "Inspection Reports": "Rapports d'inspection",
+                        "Tenant Agreements": "Contrats de location",
+                        "Upcoming": "À venir"
+                    }
+                }
+            };
+
+            let currentLang = getCookie('user_lang') || 'en';
+
+            // Cookie Utilities
+            function setCookie(name, value, days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/;SameSite=Lax`;
+            }
+
+            function getCookie(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i].trim();
+                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            // Dark Mode Controller
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeLabel = document.getElementById('theme-label');
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                if (theme === 'dark') {
+                    themeIcon.textContent = '☀️';
+                    themeLabel.textContent = translations[currentLang].light_mode;
+                } else {
+                    themeIcon.textContent = '🌙';
+                    themeLabel.textContent = translations[currentLang].dark_mode;
+                }
+            }
+
+            const savedTheme = getCookie('user_theme') || 'light';
+            applyTheme(savedTheme);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+                setCookie('user_theme', newTheme, 365);
+            });
+
+            // Language Controller
+            const langToggleBtn = document.getElementById('lang-toggle');
+            const langLabel = document.getElementById('lang-label');
+
+            function applyLanguage(lang) {
+                currentLang = lang;
+                document.documentElement.lang = lang;
+                langLabel.textContent = lang === 'en' ? 'FR' : 'EN';
+
+                // Basic Text i18n
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+
+                // Placeholders i18n
+                document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                    const key = el.getAttribute('data-i18n-ph');
+                    if (translations[lang][key]) {
+                        el.placeholder = translations[lang][key];
+                    }
+                });
+
+                // Titles & Descriptions
+                document.querySelectorAll('[data-title-en]').forEach(el => {
+                    const val = el.getAttribute(`data-title-${lang}`);
+                    if (val) el.textContent = val;
+                });
+
+                document.querySelectorAll('[data-desc-en]').forEach(el => {
+                    const val = el.getAttribute(`data-desc-${lang}`);
+                    if (val) el.textContent = val;
+                });
+
+                // Reference Links & French Availability Notice
+                document.querySelectorAll('.ref-link').forEach(link => {
+                    const url = link.getAttribute(`data-url-${lang}`);
+                    const fallbackUrl = link.getAttribute('data-url-en');
+                    const unavailNotice = link.parentElement.querySelector('.fr-unavailable');
+
+                    if (url) {
+                        link.href = url;
+                        if (unavailNotice) unavailNotice.classList.add('d-none');
+                    } else if (fallbackUrl) {
+                        link.href = fallbackUrl;
+                        if (lang === 'fr' && unavailNotice) {
+                            unavailNotice.classList.remove('d-none');
+                        } else if (unavailNotice) {
+                            unavailNotice.classList.add('d-none');
+                        }
+                    }
+                });
+
+                // Category Badges
+                document.querySelectorAll('[data-cat]').forEach(badge => {
+                    const catKey = badge.getAttribute('data-cat');
+                    const catTrans = translations[lang].cats[catKey];
+                    if (catTrans) badge.textContent = catTrans;
+                });
+
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                themeLabel.textContent = currentTheme === 'dark' 
+                    ? translations[lang].light_mode 
+                    : translations[lang].dark_mode;
+
+                buildDynamicCategoryDropdown();
+                filterDocuments();
+            }
+
+            langToggleBtn.addEventListener('click', () => {
+                const nextLang = currentLang === 'en' ? 'fr' : 'en';
+                setCookie('user_lang', nextLang, 365);
+                applyLanguage(nextLang);
+            });
+
+            // Dynamic Search and Category Filter
+            const searchInput = document.getElementById('search-input');
+            const categorySelect = document.getElementById('category-select');
+            const docCards = document.querySelectorAll('.doc-card');
+            const noResults = document.getElementById('no-results');
+            const resetBtn = document.getElementById('reset-filters');
+            const countBadge = document.getElementById('doc-count');
+
+            function buildDynamicCategoryDropdown() {
+                const selectedVal = categorySelect.value || 'all';
+                const categoryCounts = {};
+
+                docCards.forEach(card => {
+                    const badges = card.querySelectorAll('[data-cat]');
+                    badges.forEach(b => {
+                        const rawCatKey = b.getAttribute('data-cat');
+                        const localizedCat = translations[currentLang].cats[rawCatKey] || rawCatKey;
+                        categoryCounts[localizedCat] = (categoryCounts[localizedCat] || 0) + 1;
+                    });
+                });
+
+                const allCatText = translations[currentLang].all_categories;
+                categorySelect.innerHTML = `<option value="all">${allCatText} (${docCards.length})</option>`;
+
+                Object.keys(categoryCounts).sort().forEach(catName => {
+                    const option = document.createElement('option');
+                    option.value = catName;
+                    option.textContent = `${catName} (${categoryCounts[catName]})`;
+                    categorySelect.appendChild(option);
+                });
+
+                categorySelect.value = selectedVal;
+            }
+
+            function filterDocuments() {
+                const query = searchInput.value.toLowerCase().trim();
+                const selectedCategory = categorySelect.value.toLowerCase();
+                let visibleCount = 0;
+
+                docCards.forEach(card => {
+                    const title = card.querySelector('.card-title').textContent.toLowerCase();
+                    const bodyText = card.querySelector('.card-text').textContent.toLowerCase();
+                    const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+                    
+                    const cardBadges = Array.from(card.querySelectorAll('[data-cat]')).map(b => b.textContent.toLowerCase());
+                    const rawCategories = (card.getAttribute('data-category') || '').toLowerCase();
+
+                    const matchesSearch = !query || 
+                        title.includes(query) || 
+                        bodyText.includes(query) || 
+                        keywords.includes(query);
+
+                    const matchesCategory = selectedCategory === 'all' || 
+                        cardBadges.includes(selectedCategory) ||
+                        rawCategories.includes(selectedCategory);
+
+                    if (matchesSearch && matchesCategory) {
+                        card.classList.remove('d-none');
+                        visibleCount++;
+                    } else {
+                        card.classList.add('d-none');
+                    }
+                });
+
+                countBadge.textContent = translations[currentLang].showing_docs.replace('{count}', visibleCount);
+                if (visibleCount === 0) {
+                    noResults.classList.remove('d-none');
+                } else {
+                    noResults.classList.add('d-none');
+                }
+            }
+
+            // Initialize Controls & Language State
+            applyLanguage(currentLang);
+
+            searchInput.addEventListener('input', filterDocuments);
+            categorySelect.addEventListener('change', filterDocuments);
+
+            resetBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                categorySelect.value = 'all';
+                filterDocuments();
+            });
+
+            // Dynamic Modal Feature Populator
+            const previewBtns = document.querySelectorAll('.preview-btn');
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            const modalTitle = document.getElementById('previewModalLabel');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalFeatures = document.getElementById('modal-features');
+            const modalStatus = document.getElementById('modal-status');
+
+            previewBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const card = btn.closest('.doc-card');
+                    const titleElem = card.querySelector('.card-title');
+                    const descElem = card.querySelector('.card-text');
+
+                    const title = titleElem.getAttribute(`data-title-${currentLang}`) || titleElem.textContent;
+                    const desc = descElem.getAttribute(`data-desc-${currentLang}`) || descElem.textContent;
+                    const features = btn.getAttribute(`data-features-${currentLang}`) || btn.getAttribute('data-features-en');
+                    const status = btn.getAttribute(`data-status-${currentLang}`) || btn.getAttribute('data-status-en');
+
+                    modalTitle.textContent = title;
+                    modalDesc.textContent = desc;
+                    modalFeatures.textContent = features;
+                    modalStatus.textContent = status;
+                    previewModal.show();
+                });
+            });
+        });
+    </script>
+    <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
