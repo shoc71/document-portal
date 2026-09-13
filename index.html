@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
     <style>
-        /* Softened Light Mode background to reduce stark white eye-strain */
+        /* Softened Light Mode background */
         [data-bs-theme="light"] {
-            --bs-body-bg: #f4f6f8;
-            --bs-body-color: #2b3035;
+            --bs-body-bg: #f8f9fa;
+            --bs-body-color: #212529;
         }
         [data-bs-theme="light"] .card:not(.card-dashed) {
-            background-color: #fcfdfe;
+            background-color: #ffffff;
         }
         [data-bs-theme="light"] header,
         [data-bs-theme="light"] footer,
@@ -21,13 +21,29 @@
             background-color: #ffffff;
         }
 
+        /* Enhanced Card Elevation & Hover Shadows */
         .card {
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
-        .card:hover {
+        
+        /* Light Mode Shadow */
+        [data-bs-theme="light"] .card {
+            box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.05) !important;
+        }
+        [data-bs-theme="light"] .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
         }
+
+        /* Dark Mode Shadow */
+        [data-bs-theme="dark"] .card {
+            box-shadow: 0 0.25rem 0.85rem rgba(255, 255, 255, 0.03) !important;
+        }
+        [data-bs-theme="dark"] .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.08) !important;
+        }
+
         /* Style for Coming Soon cards */
         .card-dashed {
             border: 2px dashed var(--bs-border-color) !important;
@@ -36,77 +52,167 @@
         .extra-small {
             font-size: 0.75rem;
         }
+
+        /* Clean & Professional Hero Banner */
+        .hero-banner-subtle {
+            background-color: var(--bs-tertiary-bg);
+            border: 1px solid var(--bs-border-color);
+            border-left: 5px solid var(--bs-primary);
+            border-radius: 1rem;
+        }
+
+        /* Refined Search Box & Category Select Styling */
+        .controls-input-group {
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .controls-input-group:focus-within {
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+        }
+        .controls-input-group input:focus,
+        .controls-input-group select:focus {
+            box-shadow: none !important;
+            border: none !important;
+            outline: none !important;
+        }
+        .controls-input-group .btn-clear {
+            border: none;
+            background: transparent;
+            color: var(--bs-secondary-color);
+            transition: color 0.15s ease-in-out;
+        }
+        .controls-input-group .btn-clear:hover {
+            color: var(--bs-body-color);
+        }
+
+        /* Custom Category Dropdown Styling */
+        .custom-select-wrapper {
+            cursor: pointer;
+        }
+        .custom-select-wrapper select {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--bs-body-color);
+        }
+
+        /* Modernized Footer Styling */
+        footer {
+            background: linear-gradient(180deg, var(--bs-body-bg) 0%, rgba(13, 110, 253, 0.02) 100%);
+        }
+        .footer-brand-accent {
+            background: linear-gradient(90deg, #0d6efd, #198754);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .footer-link {
+            color: var(--bs-secondary-color);
+            text-decoration: none;
+            transition: color 0.15s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #0d6efd;
+        }
     </style>
 </head>
 <body class="bg-body min-vh-100 d-flex flex-column">
 
-    <!-- Header Section -->
-    <header class="border-bottom py-4 shadow-sm">
-        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-            <div class="d-flex align-items-center gap-3">
-                <!-- Header Document/Note Icon -->
-                <div class="p-2 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.5 1.5v2.121a.5.5 0 0 0 .5.5h2.121zM4.5 6.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5"/>
-                    </svg>
+    <!-- Header Navigation -->
+    <header class="navbar navbar-expand-lg border-bottom py-3 shadow-sm bg-body sticky-top">
+        <div class="container">
+            
+            <!-- Brand / Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 me-0" href="#">
+                <span class="fs-3">📄</span>
+                <div class="d-flex flex-column">
+                    <h1 class="h5 mb-0 fw-bold text-body lh-sm" data-i18n="portal_title">Document Portal</h1>
+                    <span class="text-secondary extra-small lh-sm" data-i18n="portal_subtitle">Official forms tracker & generator</span>
                 </div>
-                <div>
-                    <h1 class="h3 mb-0 fw-bold text-body" data-i18n="portal_title">Document Portal</h1>
-                    <p class="text-secondary small mb-0" data-i18n="portal_subtitle">Official forms tracker & generator</p>
+            </a>
+
+            <!-- Responsive Hamburger Toggler -->
+            <button class="navbar-toggler border-0 shadow-none p-2" type="button" data-bs-toggle="collapse" data-bs-target="#headerNavbarControls" aria-controls="headerNavbarControls" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible Navigation Controls -->
+            <div class="collapse navbar-collapse justify-content-end mt-3 mt-lg-0" id="headerNavbarControls">
+                <div class="d-flex align-items-stretch align-items-lg-center flex-column flex-lg-row gap-2">
+                    
+                    <!-- Language Toggle -->
+                    <button type="button" id="lang-toggle" class="btn btn-sm btn-outline-primary rounded-pill px-3" aria-label="Toggle language">
+                        🌐 <span id="lang-label">FR</span>
+                    </button>
+
+                    <!-- GitHub Repository Link -->
+                    <a href="https://github.com/shoc71" 
+                       target="_blank" 
+                       rel="noopener" 
+                       class="btn btn-sm btn-outline-secondary rounded-pill px-3 d-flex align-items-center justify-content-center justify-content-lg-start gap-1 w-100 w-lg-auto" 
+                       aria-label="GitHub Repository">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+
+                    <!-- Theme Toggle -->
+                    <button type="button" id="theme-toggle" class="btn btn-sm btn-outline-secondary rounded-pill px-3" aria-label="Toggle theme">
+                        <span id="theme-icon">🌙</span> <span id="theme-label">Dark Mode</span>
+                    </button>
+
+                    <!-- Active Document Count Badge -->
+                    <div class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 text-center align-self-stretch align-self-lg-center" id="doc-count">
+                        📁 Showing documents
+                    </div>
+
                 </div>
             </div>
 
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-                <!-- Language Toggle Button -->
-                <button type="button" id="lang-toggle" class="btn btn-outline-primary btn-sm rounded-pill d-flex align-items-center gap-1" aria-label="Toggle language">
-                    🌐 <span id="lang-label" class="fw-semibold">FR</span>
-                </button>
-
-                <!-- GitHub Profile Button -->
-                <a href="https://github.com/shoc71/document-portal" 
-                   target="_blank" 
-                   rel="noopener" 
-                   class="btn btn-outline-secondary btn-sm rounded-pill d-flex align-items-center gap-2" 
-                   aria-label="GitHub Repository">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
-                    </svg>
-                    <span class="d-none d-sm-inline">GitHub</span>
-                </a>
-
-                <!-- Theme Toggle Button -->
-                <button type="button" id="theme-toggle" class="btn btn-outline-secondary btn-sm rounded-pill d-flex align-items-center gap-2" aria-label="Toggle theme">
-                    <span id="theme-icon">🌙</span>
-                    <span id="theme-label" class="d-none d-sm-inline">Dark Mode</span>
-                </button>
-
-                <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2 ms-1" id="doc-count">Showing documents</span>
-            </div>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
+    <!-- Main Content Area -->
     <main class="py-4 flex-grow-1">
         <div class="container">
             
-            <!-- Controls Bar: Search Input + Category Select -->
-            <div class="card controls-card border-0 shadow-sm mb-4">
+            <!-- Clean & Understated Hero Banner -->
+            <div class="hero-banner-subtle p-4 p-md-4 mb-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-lg-9">
+                        <h2 class="h3 fw-bold mb-2 text-body" data-i18n="banner_title">Interactive Forms & Document Hub</h2>
+                        <p class="text-secondary mb-0" style="max-width: 780px;" data-i18n="portal_summary">
+                            A curated collection of official fillable documents, legal notices, and property agreements tailored for Ontario compliance. Customize, preview, and generate DOCX/PDF files seamlessly.
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-3 text-lg-end">
+                        <a href="./pages/contact.html" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2" data-i18n="footer_contact_us">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Bar: Search Input + Modernized Category Select -->
+            <div id="controls-bar" class="card controls-card border-0 mb-4">
                 <div class="card-body p-3">
                     <div class="row g-3 align-items-center">
                         
-                        <!-- Search Box -->
+                        <!-- Search Box with Clear Button -->
                         <div class="col-12 col-md-7">
-                            <div class="input-group">
-                                <span class="input-group-text bg-body border-end-0 text-muted">🔍</span>
-                                <input type="text" id="search-input" class="form-control border-start-0 ps-0" placeholder="Search title or keyword..." data-i18n-ph="search_placeholder">
+                            <div class="input-group controls-input-group rounded-pill overflow-hidden px-3 py-1">
+                                <span class="input-group-text bg-transparent border-0 text-muted ps-0 pe-2">🔍</span>
+                                <input type="text" id="search-input" class="form-control bg-transparent border-0 shadow-none ps-0" placeholder="Search title or keyword..." data-i18n-ph="search_placeholder">
+                                <button class="btn btn-clear d-none pe-0" type="button" id="search-clear-btn" aria-label="Clear search">
+                                    ✖
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Dropdown -->
+                        <!-- Modernized Category Dropdown Select -->
                         <div class="col-12 col-md-5">
-                            <div class="input-group">
-                                <label class="input-group-text bg-body text-secondary" for="category-select" data-i18n="category_label">Category</label>
-                                <select class="form-select" id="category-select">
+                            <div class="input-group controls-input-group custom-select-wrapper rounded-pill overflow-hidden px-3 py-1">
+                                <span class="input-group-text bg-transparent border-0 text-primary ps-0 pe-2 fs-6">🏷️</span>
+                                <select class="form-select bg-transparent border-0 shadow-none ps-0 pe-2" id="category-select" aria-label="Filter documents by category">
                                     <option value="all" selected>All Categories (0)</option>
                                 </select>
                             </div>
@@ -121,11 +227,11 @@
                 
                 <!-- N1 Document Card -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Official Legal" data-keywords="n1 rent increase notice landlord tribunal ltb avis augmentation loyer">
-                    <div class="card h-100 border-0 shadow-sm">
+                    <div class="card h-100 border-0">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-primary">📄</span>
+                                    <span class="text-primary fs-5">📄</span>
                                     <h5 class="card-title fw-semibold text-body mb-0"
                                         data-title-en="N1 Document"
                                         data-title-fr="Document N1">N1 Document</h5>
@@ -141,16 +247,23 @@
                                data-desc-fr="Avis d'augmentation de loyer. Formulaire officiel N1 en vertu de la Loi sur le logement locatif de l'Ontario.">
                                 Notice of Rent Increase. Official Form N1 under the Ontario Residential Tenancies Act.
                             </p>
-                            <div class="mt-auto d-flex flex-column gap-1">
-                                <a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1.pdf" 
-                                   data-url-en="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1.pdf"
-                                   data-url-fr="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1_fr.pdf"
-                                   target="_blank" 
-                                   rel="noopener"
-                                   class="btn btn-outline-primary w-100 ref-link"
-                                   data-i18n="viewRef">
-                                    View Reference
-                                </a>
+                            <div class="mt-auto flex-column gap-1">
+                                <div class="d-flex gap-2">
+                                    <a href="./pages/n1-form.html" 
+                                       target="_blank" 
+                                       class="btn btn-success flex-fill" data-i18n="btn_open_form">
+                                        Open Form
+                                    </a>
+                                    <a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1.pdf" 
+                                       data-url-en="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1.pdf"
+                                       data-url-fr="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Rent%20Increase%20&%20Instructions/N1_fr.pdf"
+                                       target="_blank" 
+                                       rel="noopener"
+                                       class="btn btn-outline-primary flex-fill ref-link"
+                                       data-i18n="btn_reference">
+                                        Reference
+                                    </a>
+                                </div>
                                 <span class="text-muted extra-small d-none fr-unavailable mt-1">Aucune version française officielle (pour le moment).</span>
                             </div>
                         </div>
@@ -159,11 +272,11 @@
 
                 <!-- Notice of Entry Card -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Templates" data-keywords="notice of entry intent access tenant unit ontario avis d'entree logement">
-                    <div class="card h-100 border-0 shadow-sm">
+                    <div class="card h-100 border-0">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-success">📝</span>
+                                    <span class="text-success fs-5">📝</span>
                                     <h5 class="card-title fw-semibold text-body mb-0"
                                         data-title-en="Notice of Entry"
                                         data-title-fr="Avis d'entrée">Notice of Entry</h5>
@@ -199,11 +312,11 @@
 
                 <!-- Completed N4 Document Card -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Eviction Notices, Official Legal" data-keywords="n4 termination non-payment rent notice landlord tribunal ltb avis resiliation non-paiement">
-                    <div class="card h-100 border-0 shadow-sm">
+                    <div class="card h-100 border-0">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-primary">📄</span>
+                                    <span class="text-primary fs-5">📄</span>
                                     <h5 class="card-title fw-semibold text-body mb-0"
                                         data-title-en="N4 Notice Form"
                                         data-title-fr="Formulaire d'avis N4">N4 Notice Form</h5>
@@ -220,16 +333,23 @@
                                data-desc-fr="Avis de résiliation de bail pour non-paiement du loyer en vertu de la loi de l'Ontario.">
                                 Notice to End a Tenancy Early for Non-payment of Rent under the Ontario RTA.
                             </p>
-                            <div class="mt-auto d-flex flex-column gap-1">
-                                <a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4.pdf"
-                                   data-url-en="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4.pdf"
-                                   data-url-fr="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4_fr.pdf"
-                                   target="_blank" 
-                                   rel="noopener"
-                                   class="btn btn-outline-primary w-100 ref-link"
-                                   data-i18n="viewRef">
-                                    View Reference
-                                </a>
+                            <div class="mt-auto flex-column gap-1">
+                                <div class="d-flex gap-2">
+                                    <a href="./pages/n4-form.html" 
+                                       target="_blank" 
+                                       class="btn btn-success flex-fill" data-i18n="btn_open_form">
+                                        Open Form
+                                    </a>
+                                    <a href="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4.pdf"
+                                       data-url-en="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4.pdf"
+                                       data-url-fr="https://tribunalsontario.ca/documents/ltb/Notices%20of%20Termination%20&%20Instructions/N4_fr.pdf"
+                                       target="_blank" 
+                                       rel="noopener"
+                                       class="btn btn-outline-primary flex-fill ref-link"
+                                       data-i18n="btn_reference">
+                                        Reference
+                                    </a>
+                                </div>
                                 <span class="text-muted extra-small d-none fr-unavailable mt-1">Aucune version française officielle (pour le moment).</span>
                             </div>
                         </div>
@@ -238,11 +358,11 @@
 
                 <!-- Coming Soon 1: PDD Form -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Inspection Reports, Templates, Upcoming" data-keywords="pdd property damage report condition move in inspection tenant landlord upcoming inspection etat des lieux">
-                    <div class="card h-100 card-dashed shadow-sm">
+                    <div class="card h-100 card-dashed">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-warning-emphasis">🔍</span>
+                                    <span class="text-warning-emphasis fs-5">🔍</span>
                                     <h5 class="card-title fw-semibold text-body mb-0" 
                                         data-title-en="PDD Inspection Form"
                                         data-title-fr="Formulaire d'inspection PDD">PDD Inspection Form</h5>
@@ -276,11 +396,11 @@
 
                 <!-- Coming Soon 2: N12 Form -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Eviction Notices, Upcoming" data-keywords="n12 personal use purchaser eviction notice upcoming usage personnel acheteur">
-                    <div class="card h-100 card-dashed shadow-sm">
+                    <div class="card h-100 card-dashed">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-warning-emphasis">🏠</span>
+                                    <span class="text-warning-emphasis fs-5">🏠</span>
                                     <h5 class="card-title fw-semibold text-body mb-0" 
                                         data-title-en="N12 Notice Form"
                                         data-title-fr="Formulaire d'avis N12">N12 Notice Form</h5>
@@ -314,11 +434,11 @@
 
                 <!-- Coming Soon 3: N5 Form -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Landlord Forms, Eviction Notices, Upcoming" data-keywords="n5 interference damage overcrowding notice upcoming dommages préjudice">
-                    <div class="card h-100 card-dashed shadow-sm">
+                    <div class="card h-100 card-dashed">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-warning-emphasis">⚠️</span>
+                                    <span class="text-warning-emphasis fs-5">⚠️</span>
                                     <h5 class="card-title fw-semibold text-body mb-0" 
                                         data-title-en="N5 Notice Form"
                                         data-title-fr="Formulaire d'avis N5">N5 Notice Form</h5>
@@ -352,11 +472,11 @@
 
                 <!-- Coming Soon 4: Standard Lease Agreement -->
                 <div class="col-12 col-md-6 col-lg-4 doc-card" data-category="Tenant Agreements, Official Legal, Upcoming" data-keywords="ontario standard lease agreement tenancy contract template upcoming bail standard ontario">
-                    <div class="card h-100 card-dashed shadow-sm">
+                    <div class="card h-100 card-dashed">
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="text-warning-emphasis">📑</span>
+                                    <span class="text-warning-emphasis fs-5">📑</span>
                                     <h5 class="card-title fw-semibold text-body mb-0" 
                                         data-title-en="Ontario Standard Lease"
                                         data-title-fr="Bail standard de l'Ontario">Ontario Standard Lease</h5>
@@ -400,7 +520,7 @@
         </div>
     </main>
 
-    <!-- Coming Soon Preview Modal -->
+    <!-- Preview Modal -->
     <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -409,19 +529,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Overview Description Section inside the Modal -->
                     <div class="mb-3">
                         <h6 class="fw-semibold text-body mb-1" data-i18n="modal_overview_title">Description:</h6>
                         <p id="modal-desc" class="text-secondary small mb-0"></p>
                     </div>
 
-                    <!-- Key Features Box -->
                     <div class="bg-body-tertiary p-3 rounded border mb-3">
                         <h6 class="fw-semibold text-body mb-2" data-i18n="modal_key_features">Key Planned Features:</h6>
                         <p id="modal-features" class="small text-secondary mb-0"></p>
                     </div>
 
-                    <!-- Development Status Section -->
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="small text-muted" data-i18n="modal_dev_status">Development Status:</span>
                         <span id="modal-status" class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle"></span>
@@ -434,15 +551,69 @@
         </div>
     </div>
 
-    <!-- Official Footer -->
-    <footer class="border-top py-3 mt-auto">
-        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-            <span class="text-secondary small" data-i18n="footer_copy">
-                © Document Portal · Official forms tracker & generator
-            </span>
-            <span class="text-secondary small">
-                <span data-i18n="footer_created_by">Created by</span> <a href="https://github.com/shoc71" target="_blank" rel="noopener" class="text-decoration-none fw-semibold link-primary">shoc71</a>
-            </span>
+    <!-- Official Professional Footer -->
+    <footer class="border-top pt-5 pb-4 mt-auto">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                
+                <!-- Brand Summary Column -->
+                <div class="col-12 col-md-5">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="fs-4">📄</span>
+                        <span class="fw-bold fs-5 footer-brand-accent" data-i18n="portal_title">Document Portal</span>
+                    </div>
+                    <p class="text-secondary small mb-3" style="max-width: 360px;" data-i18n="footer_brand_desc">
+                        Your trusted portal for generating, customizing, and managing official legal documents, landlord forms, and property agreements.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small">Ontario Law Compliant</span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill extra-small">Bilingual (EN/FR)</span>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Links Column -->
+                <div class="col-6 col-md-3">
+                    <h6 class="fw-bold text-body mb-3" data-i18n="footer_quick_links">Quick Navigation</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li><a href="#" class="footer-link" data-i18n="footer_link_home">Dashboard Home</a></li>
+                        <li><a href="#" id="footer-category-link" class="footer-link" data-i18n="footer_link_cats">Form Categories</a></li>
+                        <li><a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#previewModal" data-i18n="footer_link_upcoming">Upcoming Features</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support & Contact Column -->
+                <div class="col-6 col-md-4">
+                    <h6 class="fw-bold text-body mb-3" data-i18n="footer_support_title">Support & Contact</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small">
+                        <li>
+                            <a href="./pages/contact.html" class="footer-link d-inline-flex align-items-center gap-2 text-primary fw-semibold">
+                                ✉️ <span data-i18n="footer_contact_us">Contact Support</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/shoc71" target="_blank" rel="noopener" class="footer-link d-inline-flex align-items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                                </svg>
+                                <span>GitHub Repository</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <hr class="my-4 text-secondary opacity-25">
+
+            <!-- Legal Notice Footer -->
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+                <span class="text-secondary small" data-i18n="footer_copy">
+                    © Document Portal · Official forms tracker & generator
+                </span>
+                <span class="text-secondary small">
+                    <span data-i18n="footer_created_by">Created by</span> <a href="https://github.com/shoc71" target="_blank" rel="noopener" class="text-decoration-none fw-semibold link-primary">shoc71</a>
+                </span>
+            </div>
         </div>
     </footer>
 
@@ -455,15 +626,15 @@
                 en: {
                     portal_title: "Document Portal",
                     portal_subtitle: "Official forms tracker & generator",
+                    banner_title: "Interactive Forms & Document Hub",
+                    portal_summary: "A curated collection of official fillable documents, legal notices, and property agreements tailored for Ontario compliance. Customize, preview, and generate DOCX/PDF files seamlessly.",
                     dark_mode: "Dark Mode",
                     light_mode: "Light Mode",
                     showing_docs: "Showing {count} document(s)",
                     search_placeholder: "Search title or keyword...",
-                    category_label: "Category",
                     all_categories: "All Categories",
                     badge_html: "HTML Form",
                     badge_coming_soon: "Coming Soon",
-                    viewRef: "View Reference",
                     btn_open_form: "Open Form",
                     btn_reference: "Reference",
                     btn_preview: "Preview Features",
@@ -474,6 +645,13 @@
                     modal_key_features: "Key Planned Features:",
                     modal_dev_status: "Development Status:",
                     modal_close: "Close",
+                    footer_brand_desc: "Your trusted portal for generating, customizing, and managing official legal documents, landlord forms, and property agreements.",
+                    footer_quick_links: "Quick Navigation",
+                    footer_link_home: "Dashboard Home",
+                    footer_link_cats: "Form Categories",
+                    footer_link_upcoming: "Upcoming Features",
+                    footer_support_title: "Support & Contact",
+                    footer_contact_us: "Contact Support",
                     footer_copy: "© Document Portal · Official forms tracker & generator",
                     footer_created_by: "Created by",
                     cats: {
@@ -489,15 +667,15 @@
                 fr: {
                     portal_title: "Portail Documentaire",
                     portal_subtitle: "Suivi et générateur de formulaires officiels",
+                    banner_title: "Centre de formulaires interactifs",
+                    portal_summary: "Une collection de documents remplissables, d'avis juridiques et de baux conformes aux lois de l'Ontario. Personnalisez et générez vos fichiers DOCX/PDF en toute simplicité.",
                     dark_mode: "Mode Sombre",
                     light_mode: "Mode Clair",
                     showing_docs: "Affichage de {count} document(s)",
                     search_placeholder: "Rechercher par titre ou mot-clé...",
-                    category_label: "Catégorie",
                     all_categories: "Toutes les catégories",
                     badge_html: "Formulaire HTML",
                     badge_coming_soon: "À venir",
-                    viewRef: "Voir Référence",
                     btn_open_form: "Ouvrir formulaire",
                     btn_reference: "Référence",
                     btn_preview: "Aperçu des fonctionnalités",
@@ -508,6 +686,13 @@
                     modal_key_features: "Fonctionnalités clés prévues :",
                     modal_dev_status: "Statut de développement :",
                     modal_close: "Fermer",
+                    footer_brand_desc: "Votre portail de confiance pour générer, personnaliser et gérer vos documents juridiques officiels, formulaires de locateur et baux.",
+                    footer_quick_links: "Navigation Rapide",
+                    footer_link_home: "Accueil du Portail",
+                    footer_link_cats: "Catégories de Formulaires",
+                    footer_link_upcoming: "Fonctionnalités À venir",
+                    footer_support_title: "Support et Contact",
+                    footer_contact_us: "Contacter le Support",
                     footer_copy: "© Portail Documentaire · Suivi et générateur de formulaires",
                     footer_created_by: "Créé par",
                     cats: {
@@ -607,7 +792,7 @@
                 document.querySelectorAll('.ref-link').forEach(link => {
                     const url = link.getAttribute(`data-url-${lang}`);
                     const fallbackUrl = link.getAttribute('data-url-en');
-                    const unavailNotice = link.parentElement.querySelector('.fr-unavailable');
+                    const unavailNotice = link.parentElement.parentElement.querySelector('.fr-unavailable') || link.parentElement.querySelector('.fr-unavailable');
 
                     if (url) {
                         link.href = url;
@@ -646,6 +831,7 @@
 
             // Dynamic Search and Category Filter
             const searchInput = document.getElementById('search-input');
+            const searchClearBtn = document.getElementById('search-clear-btn');
             const categorySelect = document.getElementById('category-select');
             const docCards = document.querySelectorAll('.doc-card');
             const noResults = document.getElementById('no-results');
@@ -683,6 +869,12 @@
                 const selectedCategory = categorySelect.value.toLowerCase();
                 let visibleCount = 0;
 
+                if (searchInput.value.length > 0) {
+                    searchClearBtn.classList.remove('d-none');
+                } else {
+                    searchClearBtn.classList.add('d-none');
+                }
+
                 docCards.forEach(card => {
                     const title = card.querySelector('.card-title').textContent.toLowerCase();
                     const bodyText = card.querySelector('.card-text').textContent.toLowerCase();
@@ -708,7 +900,7 @@
                     }
                 });
 
-                countBadge.textContent = translations[currentLang].showing_docs.replace('{count}', visibleCount);
+                countBadge.innerHTML = `📁 ${translations[currentLang].showing_docs.replace('{count}', visibleCount)}`;
                 if (visibleCount === 0) {
                     noResults.classList.remove('d-none');
                 } else {
@@ -722,10 +914,22 @@
             searchInput.addEventListener('input', filterDocuments);
             categorySelect.addEventListener('change', filterDocuments);
 
+            searchClearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                filterDocuments();
+                searchInput.focus();
+            });
+
             resetBtn.addEventListener('click', () => {
                 searchInput.value = '';
                 categorySelect.value = 'all';
                 filterDocuments();
+            });
+
+            document.getElementById('footer-category-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                categorySelect.scrollIntoView({ behavior: 'smooth' });
+                categorySelect.focus();
             });
 
             // Dynamic Modal Feature Populator
